@@ -36,7 +36,7 @@ func TestSolution(t *testing.T) {
 			expected: 1238,
 		},
 	} {
-		t.Logf("Testing input: %s", test.input)
+		t.Logf("Testing input1: %s", test.input)
 		solution := Solution(test.input)
 		t.Logf("Solution is: %d", solution)
 		if test.expected != -1 {
