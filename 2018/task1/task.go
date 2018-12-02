@@ -2,9 +2,12 @@ package task1
 
 import (
 	"bufio"
+	"container/ring"
+	"errors"
 	"log"
 	"os"
 	"strconv"
+	"time"
 )
 
 func Solution1(inputFile string) (int, error) {
@@ -12,6 +15,7 @@ func Solution1(inputFile string) (int, error) {
 	if err != nil {
 		return 0, nil
 	}
+
 	var result int
 	for _, str := range lines {
 		num, err := strconv.Atoi(str)
@@ -21,6 +25,50 @@ func Solution1(inputFile string) (int, error) {
 		result += num
 	}
 	return result, nil
+}
+
+func Solution2(inputFile string) (int, error) {
+	lines, err := readLinesFrom(inputFile)
+	if err != nil {
+		return 0, nil
+	}
+
+	r := ring.New(len(lines))
+	for _, str := range lines {
+		num, err := strconv.Atoi(str)
+		if err != nil {
+			return 0, nil
+		}
+		r.Value = num
+		r = r.Next()
+	}
+
+	result, err := findFirstCycleSum(r)
+	if err != nil {
+		return 0, nil
+	}
+
+	return result, nil
+}
+
+func findFirstCycleSum(r *ring.Ring) (int, error) {
+	timeout := time.After(1 * time.Second)
+	resultsSoFar := make(map[int]bool)
+	var result int
+	for {
+		select {
+		case <-timeout:
+			return 0, errors.New("timeout reached")
+		default:
+			result += r.Value.(int)
+			if resultsSoFar[result] {
+				return result, nil
+			} else {
+				r = r.Next()
+				resultsSoFar[result] = true
+			}
+		}
+	}
 }
 
 func readLinesFrom(fileName string) ([]string, error) {
