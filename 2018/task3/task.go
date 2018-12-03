@@ -23,6 +23,7 @@ func Solution1(inputFile string) (int, error) {
 }
 
 type fabricPart struct {
+	id                int
 	horizontalPadding int
 	verticalPadding   int
 	width             int
@@ -49,7 +50,12 @@ func newFabricPart(inputLine string) (*fabricPart, error) {
 	if err != nil {
 		return nil, err
 	}
+	id, err := strconv.Atoi(string(split[0][1:len(split[0])]))
+	if err != nil {
+		return nil, err
+	}
 	return &fabricPart{
+		id:                id,
 		horizontalPadding: horizontalPadding,
 		verticalPadding:   verticalPadding,
 		width:             width,
@@ -103,4 +109,41 @@ func countOverlappingParts(fabricMap map[int]map[int]int) int {
 		}
 	}
 	return result
+}
+
+func Solution2(inputFile string) (int, error) {
+	lines, err := utils.ReadLinesFrom(inputFile)
+	if err != nil {
+		return 0, err
+	}
+
+	fabricParts, err := buildFabrics(lines)
+	if err != nil {
+		return 0, err
+	}
+
+	fabricMap := populateFabricMap(fabricParts)
+
+	return findNonOverlapping(fabricMap, fabricParts), nil
+}
+
+func findNonOverlapping(fabricMap map[int]map[int]int, fabricParts []*fabricPart) int {
+	for _, part := range fabricParts {
+		overlaps := false
+		for i := part.horizontalPadding; i < part.horizontalPadding+part.width; i++ {
+			for j := part.verticalPadding; j < part.verticalPadding+part.height; j++ {
+				if fabricMap[i][j] > 1 {
+					overlaps = true
+					break
+				}
+			}
+			if overlaps {
+				break
+			}
+		}
+		if !overlaps {
+			return part.id
+		}
+	}
+	return 0
 }
