@@ -1,17 +1,16 @@
 package task1
 
 import (
-	"bufio"
 	"container/ring"
 	"errors"
-	"log"
-	"os"
 	"strconv"
 	"time"
+
+	"github.com/karolgil/AdventOfCode/2018/utils"
 )
 
 func Solution1(inputFile string) (int, error) {
-	lines, err := readLinesFrom(inputFile)
+	lines, err := utils.ReadLinesFrom(inputFile)
 	if err != nil {
 		return 0, nil
 	}
@@ -28,7 +27,7 @@ func Solution1(inputFile string) (int, error) {
 }
 
 func Solution2(inputFile string) (int, error) {
-	lines, err := readLinesFrom(inputFile)
+	lines, err := utils.ReadLinesFrom(inputFile)
 	if err != nil {
 		return 0, nil
 	}
@@ -69,23 +68,4 @@ func findFirstCycleSum(r *ring.Ring) (int, error) {
 			}
 		}
 	}
-}
-
-func readLinesFrom(fileName string) ([]string, error) {
-	file, err := os.Open(fileName)
-	if err != nil {
-		return []string{}, err
-	}
-	defer func(f *os.File) {
-		err := f.Close()
-		if err != nil {
-			log.Fatal(err)
-		}
-	}(file)
-	var lines []string
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
-	return lines, nil
 }
