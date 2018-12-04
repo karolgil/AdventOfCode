@@ -74,16 +74,16 @@ func Solution2(inputFile string) (int, error) {
 	return bestID * bestMinute, nil
 }
 
-func getGuardsSleepSchedules(inputLines []string) (map[int]*longestSleep, error) {
+func getGuardsSleepSchedules(inputLines []string) (map[int]*sleepSchedule, error) {
 	guardsSchedules, err := getGuardsCalendar(inputLines)
 	if err != nil {
 		return nil, err
 	}
 
-	guardsSleepSchedules := make(map[int]*longestSleep)
+	guardsSleepSchedules := make(map[int]*sleepSchedule)
 	for _, schedule := range guardsSchedules {
 		if _, exists := guardsSleepSchedules[schedule.id]; !exists {
-			guardsSleepSchedules[schedule.id] = newLongestSleep()
+			guardsSleepSchedules[schedule.id] = newSleepSchedule()
 		}
 		asleep := 0
 		for i := 0; i < 60; i++ {
@@ -174,13 +174,13 @@ func newDaySchedule() *daySchedule {
 	}
 }
 
-type longestSleep struct {
+type sleepSchedule struct {
 	sum       int
 	schedules [][]int
 }
 
-func newLongestSleep() *longestSleep {
-	return &longestSleep{
+func newSleepSchedule() *sleepSchedule {
+	return &sleepSchedule{
 		schedules: [][]int{},
 	}
 }
