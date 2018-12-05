@@ -24,3 +24,11 @@ func ReadLinesFrom(fileName string) ([]string, error) {
 	}
 	return lines, nil
 }
+
+func Alphabet() string {
+	b := make([]byte, 26)
+	for i := range b {
+		b[i] = 'a' + byte(i)
+	}
+	return string(b)
+}
