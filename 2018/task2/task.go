@@ -43,18 +43,10 @@ func containsValue(m map[rune]int, value int) bool {
 
 func getEmptyCharMap() map[rune]int {
 	charMap := make(map[rune]int)
-	for _, l := range alphabet() {
+	for _, l := range utils.Alphabet() {
 		charMap[l] = 0
 	}
 	return charMap
-}
-
-func alphabet() string {
-	b := make([]byte, 26)
-	for i := range b {
-		b[i] = 'a' + byte(i)
-	}
-	return string(b)
 }
 
 func Solution2(inputFile string) (string, error) {
