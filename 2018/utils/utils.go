@@ -32,3 +32,14 @@ func Alphabet() string {
 	}
 	return string(b)
 }
+
+func AlphabetLowerAndUpper() string {
+	b := make([]byte, 52)
+	for i := range b[:len(b)/2] {
+		b[i] = 'a' + byte(i)
+	}
+	for i := range b[len(b)/2:] {
+		b[i+26] = 'A' + byte(i)
+	}
+	return string(b)
+}
