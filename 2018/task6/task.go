@@ -1,7 +1,6 @@
 package task1
 
 import (
-	"fmt"
 	"math"
 	"strconv"
 	"strings"
@@ -108,12 +107,8 @@ func (m Matrix) GetSumOfFieldWithDistLowerThan(maxX, maxY, maxDist int, points P
 		for y := 0; y <= maxY; y++ {
 			if points.isCloserThenDistFromAll(Point{"", x, y}, maxDist) {
 				sum += 1
-				fmt.Printf("#")
-			} else {
-				fmt.Printf(".")
 			}
 		}
-		fmt.Printf("\n")
 	}
 	return sum
 }
