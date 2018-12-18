@@ -1,7 +1,6 @@
 package task16
 
 import (
-	"fmt"
 	"regexp"
 	"strconv"
 
@@ -228,11 +227,9 @@ func Solution2(inputFile, testFile string) int {
 
 	registers := [4]int{0, 0, 0, 0}
 	for _, operation := range testOperations {
-		fmt.Printf("Operation: %v\n", operation)
 		resultIndex := operation[3]
 		result := operations[operation[0]](registers, operation[1], operation[2])
 		registers[resultIndex] = result
-		fmt.Printf("Registers: %v\n", registers)
 	}
 
 	return registers[0]
