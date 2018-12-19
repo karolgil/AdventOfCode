@@ -1,41 +1,41 @@
-REGISTER         INIT REGISTER VALUES
-a b c d e ip g = 1 0 0 0 0 0
+REGISTERS     a  b  c  d  e  ip
+INIT VALUES   1  0  0  0  0  0 
+                
+                  ip  c   = a   op b
 
-               ip  c  = a   op b
-
-addi 5 16 5     0  ip := ip  + 16    <=>    ip += 16                   -> L1
-seti 1 1 4      1  e  := 1   =       <=>     e  = 1            L3 ->   e = 1
-seti 1 8 2      2  c  := 1   =       <=>     c  = 1            L9 ->   c = 1
-mulr 4 2 3      3  d  := e   * c     <=>     d  = e * c        L7 ->   d = e * c
-eqrr 3 1 3      4  d  := d  == b     <=>     d  = d == b              |if (e * c) == b                  # if value in `b` is divided by `e` and `c`
-addr 3 5 5      5  ip := d   + ip    <=>    ip  = d + ip              |then -> L4
-addi 5 1 5      6  ip := ip  + 1     <=>     ip += 1                  |else -> L5
-addr 4 0 0      7  a  := e   + a     <=>     a += e            L4 ->   a += e                           # add `e` to sum in `a`
-addi 2 1 2      8  c  := c   + 1     <=>     c += 1            L5 ->   c++                              # in other case increment `c`
-gtrr 2 1 3      9  d  := c   > b     <=>     d  = c > b               |if (c > b)                       # if c is bigger then b
-addr 5 3 5     10  ip := ip  + d     <=>    ip += d                   |then -> L6                       # then increment `e` and count `c` from 1 again
-seti 2 6 5     11  ip := 2   =       <=>    ip  = 2                   |then -> L7                       # else increment `c` and start over
-addi 4 1 4     12  e  := e   + 1     <=>     e += 1            L6 ->   e++
-gtrr 4 1 3     13  d  := e   > b     <=>     d  = e > b               |if (e > b)                       # if `e` is bigger then `b`
-addr 3 5 5     14  ip := d   + ip    <=>    ip  = ip + d              |then -> L8                       # then exit the program
-seti 1 4 5     15  ip := 1   =       <=>    ip  = 1                   |else -> L9                       # else start counting `c` from 1 with incremented `e`
-mulr 5 5 5     16  ip := ip  + ip    <=>    ip *= ip           L8 ->   16*16 > 32                       # ip exceeds instructions list -> return
-addi 1 2 1     17  b  := b   + 2     <=>     b += 2            L1 ->   b = 2
-mulr 1 1 1     18  b  := b   + b     <=>     b *= b                    b = 2^2 = 4
-mulr 5 1 1     19  b  := ip  + b     <=>     b *= ip                   b = 4 * 19 = 76
-muli 1 11 1    20  b  := b   * 11    <=>     b *= 11                   b = 76 * 11 = 836
-addi 3 7 3     21  d  := d   + 7     <=>     d += 7                    d = 7
-mulr 3 5 3     22  d  := d   + ip    <=>     d *= ip                   d = 7 * 22 = 154
-addi 3 8 3     23  d  := d   + 8     <=>     d += 8                    d = 154 + 8 = 162
-addr 1 3 1     24  b  := b   + d     <=>     b += d                    b = 836 + 162 = 998
-addr 5 0 5     25  ip := ip  + a     <=>    ip += a                   |if (a == 1) -> L2
-seti 0 9 5     26  ip := 0   =       <=>    ip  = 0                   |else        -> L3
-setr 5 8 3     27  d  := ip  =       <=>     d  = ip           L2 ->   d = 27
-mulr 3 5 3     28  d  := d   + ip    <=>     d *= ip                   d = 27 * 28 = 756
-addr 5 3 3     29  d  := ip  + d     <=>     d += ip                   d = 27 * 28 + 29 = 785
-mulr 5 3 3     30  d  := ip  + d     <=>     d *= ip                   d = 785 * 30 = 23550
-muli 3 14 3    31  d  := 3   * 14    <=>     d *= 14                   d = 23550 * 14 = 329700
-mulr 3 5 3     32  d  := 3   + 5     <=>     d *= ip                   d = 329700 * 32 = 10550400
-addr 1 3 1     33  b  := b   + d     <=>     b += d                    b = 998 + 10550400 = 10551398
-seti 0 4 0     34  a  := 0   =       <=>     a  = 0                    a = 0
-seti 0 3 5     35  ip := 0   =       <=>    ip  = 0                    -> L3
+addi 5 16 5  <=>   0  ip := ip  +  16    <=>    ip += 16       <=>            -> L1
+seti 1 1 4   <=>   1  e  := 1   =        <=>     e  = 1        <=>    L3 ->   e = 1
+seti 1 8 2   <=>   2  c  := 1   =        <=>     c  = 1        <=>    L9 ->   c = 1
+mulr 4 2 3   <=>   3  d  := e   *  c     <=>     d  = e * c    <=>    L7 ->   d = e * c
+eqrr 3 1 3   <=>   4  d  := d  ==  b     <=>     d  = d == b   <=>           |if (e * c) == b                  # if value in `b` is divided by `e` and `c`
+addr 3 5 5   <=>   5  ip := d   +  ip    <=>    ip  = d + ip   <=>           |then -> L4
+addi 5 1 5   <=>   6  ip := ip  +  1     <=>     ip += 1       <=>           |else -> L5
+addr 4 0 0   <=>   7  a  := e   +  a     <=>     a += e        <=>    L4 ->   a += e                           # add `e` to sum in `a`
+addi 2 1 2   <=>   8  c  := c   +  1     <=>     c += 1        <=>    L5 ->   c++                              # in other case increment `c`
+gtrr 2 1 3   <=>   9  d  := c   >  b     <=>     d  = c > b    <=>           |if (c > b)                       # if c is bigger then b
+addr 5 3 5   <=>  10  ip := ip  +  d     <=>    ip += d        <=>           |then -> L6                       # then increment `e` and count `c` from 1 again
+seti 2 6 5   <=>  11  ip := 2   =        <=>    ip  = 2        <=>           |then -> L7                       # else increment `c` and start over
+addi 4 1 4   <=>  12  e  := e   +  1     <=>     e += 1        <=>    L6 ->   e++
+gtrr 4 1 3   <=>  13  d  := e   >  b     <=>     d  = e > b    <=>           |if (e > b)                       # if `e` is bigger then `b`
+addr 3 5 5   <=>  14  ip := d   +  ip    <=>    ip  = ip + d   <=>           |then -> L8                       # then exit the program
+seti 1 4 5   <=>  15  ip := 1   =        <=>    ip  = 1        <=>           |else -> L9                       # else start counting `c` from 1 with incremented `e`
+mulr 5 5 5   <=>  16  ip := ip  +  ip    <=>    ip *= ip       <=>    L8 ->   16*16 > 32                       # ip exceeds instructions list -> return
+addi 1 2 1   <=>  17  b  := b   +  2     <=>     b += 2        <=>    L1 ->   b = 2
+mulr 1 1 1   <=>  18  b  := b   +  b     <=>     b *= b        <=>            b = 2^2 = 4
+mulr 5 1 1   <=>  19  b  := ip  +  b     <=>     b *= ip       <=>            b = 4 * 19 = 76
+muli 1 11 1  <=>  20  b  := b   *  11    <=>     b *= 11       <=>            b = 76 * 11 = 836
+addi 3 7 3   <=>  21  d  := d   +  7     <=>     d += 7        <=>            d = 7
+mulr 3 5 3   <=>  22  d  := d   +  ip    <=>     d *= ip       <=>            d = 7 * 22 = 154
+addi 3 8 3   <=>  23  d  := d   +  8     <=>     d += 8        <=>            d = 154 + 8 = 162
+addr 1 3 1   <=>  24  b  := b   +  d     <=>     b += d        <=>            b = 836 + 162 = 998
+addr 5 0 5   <=>  25  ip := ip  +  a     <=>    ip += a        <=>           |if (a == 1) -> L2
+seti 0 9 5   <=>  26  ip := 0   =        <=>    ip  = 0        <=>           |else        -> L3
+setr 5 8 3   <=>  27  d  := ip  =        <=>     d  = ip       <=>    L2 ->   d = 27
+mulr 3 5 3   <=>  28  d  := d   +  ip    <=>     d *= ip       <=>            d = 27 * 28 = 756
+addr 5 3 3   <=>  29  d  := ip  +  d     <=>     d += ip       <=>            d = 27 * 28 + 29 = 785
+mulr 5 3 3   <=>  30  d  := ip  +  d     <=>     d *= ip       <=>            d = 785 * 30 = 23550
+muli 3 14 3  <=>  31  d  := 3   *  14    <=>     d *= 14       <=>            d = 23550 * 14 = 329700
+mulr 3 5 3   <=>  32  d  := 3   +  5     <=>     d *= ip       <=>            d = 329700 * 32 = 10550400
+addr 1 3 1   <=>  33  b  := b   +  d     <=>     b += d        <=>            b = 998 + 10550400 = 10551398
+seti 0 4 0   <=>  34  a  := 0   =        <=>     a  = 0        <=>            a = 0
+seti 0 3 5   <=>  35  ip := 0   =        <=>    ip  = 0        <=>            -> L3
